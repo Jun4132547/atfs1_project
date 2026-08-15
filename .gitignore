@@ -1,0 +1,12 @@
+.DS_Store
+
+# Context / roadmap docs - not for public repo
+Context/
+
+# Large re-downloadable inputs. Every one of these is a public accession and is
+# listed with its source in the README, so the repo stays clonable without them.
+data/raw/c_elegans.PRJNA13758.WS285.annotations.gff3.gz
+ref_data/go/go-basic.obo
+
+# Platform-specific binary, not ours to redistribute
+data/liftover/liftOver

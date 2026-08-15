@@ -1,0 +1,28 @@
+# Environment for the ATFS-1 reanalysis.
+#
+#   conda env create -f environment.yml
+#   conda activate atfs1
+#   jupyter lab
+#
+# Versions are the ones the committed notebook outputs were produced under, so a
+# rebuild from this file reproduces the stored results rather than approximating
+# them. Every notebook runs top-to-bottom against the files listed in the README's
+# data table; nothing here reaches the network at runtime.
+#
+# ucsc-liftover is listed because the ce6 -> ce11 peak conversion needs it, but that
+# step has already been run and its output (data/liftover/peaks_ce11.bed) is
+# committed. Only rerun it if you want to reproduce the liftover itself.
+name: atfs1
+channels:
+  - conda-forge
+  - bioconda
+dependencies:
+  - python=3.11
+  - pandas=3.0.5
+  - numpy=2.4.6
+  - scipy=1.17.1
+  - statsmodels=0.14.6
+  - openpyxl=3.1.5          # reads the .xlsx supplementary tables
+  - jupyterlab
+  - nbconvert               # only needed to re-execute notebooks headlessly
+  - ucsc-liftover           # ce6 -> ce11 peak conversion; output already committed
