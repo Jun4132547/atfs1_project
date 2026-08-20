@@ -10,3 +10,6 @@ ref_data/go/go-basic.obo
 
 # Platform-specific binary, not ours to redistribute
 data/liftover/liftOver
+
+# Python bytecode cache, created by importing scripts/figure_style.py as a module
+scripts/__pycache__/

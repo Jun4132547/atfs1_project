@@ -645,6 +645,19 @@ explicitly that the notebooks are independent of one another.
 file — same 72 WBGene IDs, same 65/7 role split, zero disagreements.
 `scripts/census_build.ipynb`.
 
+**Addendum, 2026-08-18.** Further review ahead of building the paper's figures
+surfaced two more mislabelled Pfam family names in this notebook's own
+`SINGLE_DOMAIN` dict: `PF01434` was labelled `"FtsH_AAA"` and `PF00574` was labelled
+`"ClpP"` — both plausible mnemonics, neither the real family name in this annotation
+release. Checked directly against the raw file: PF01434 is
+`Peptidase_M41` (`ymel-1`'s domain), PF00574 is `CLP_protease` (`clpp-1`'s domain).
+The original exact-match check did not catch either, because it compared gene
+membership and role assignment only, not the domain-name text — a real gap in the
+check itself, not only in the labels. Both are now fixed, and the check now also
+compares `pfam_families` text exactly (including the two prefoldin manual-addition
+entries' explanatory text), so a labelling drift like this cannot pass silently
+again. Re-executed; the census still reproduces exactly, now on all three axes.
+
 The audit above found the census was consumed by three notebooks but built by none.
 It had entered as a finished CSV, so its documented method could not be checked
 against code. Reconstructing it was worth doing properly rather than documenting as a
@@ -707,7 +720,88 @@ without qualification.
 
 ---
 
-## 2026-08-11 · Data integrity audit
+## 2026-08-18 · Table S2 — functional category for all 61 regulon genes
+
+**Date:** 2026-08-18
+**Outcome:** All 61 genes categorised: 2 Folding/QC, 8 Xenobiotic detoxification, 4
+Innate immunity, 19 Uncharacterised (no GO annotation), 28 Other annotated function.
+`scripts/table_s2.ipynb`, writing `results/regulon_61.csv` and
+`results/table_s2_regulon_annotation.csv`.
+
+This closes the one real gap the pre-freeze audit left open: only the two anchor
+genes had ever been annotated, and Figure 1C (what the regulon is, not only what it
+isn't) needs a category per gene. Categories are the ones the roadmap's Part 0
+already commits to in prose — *"the bulk of the regulon is xenobiotic
+detoxification, innate immunity, and functionally uncharacterised genes"* — not a
+new taxonomy invented for this table. Built from the same GO annotation file and
+ancestor-propagation pipeline Analysis A already validated, applied to two more
+category roots instead of only the folding one. Folding/QC status is the frozen
+census, reused rather than re-derived.
+
+**The validation check caught a real gap before it became a wrong figure.** A first
+pass defined "xenobiotic" only from the biological-process terms (`GO:0006805`,
+`GO:0009410`) and put 4 known xenobiotic genes in as a check — `cyp-14A1`,
+`cyp-33C8`, `cyp-14A4`, `ugt-19`, three of them among the regulon's top-ranked genes.
+Only 1 passed. The other three carry solely the molecular-function activity terms —
+monooxygenase activity, UDP-glycosyltransferase / glucuronosyltransferase activity —
+without a formal link to the xenobiotic *process* term in this GO release. Those
+activities are literally the textbook Phase I (cytochrome P450) and Phase II (UGT)
+xenobiotic-metabolising enzyme families, and adding them is consistent with, not
+independent of, Analysis A's own finding that glucuronosyltransferase activity is
+the one GO term significantly enriched in this regulon (FDR 0.041) — the same
+biology surfacing twice, not two different claims. Checked before adding: each term
+covers 72–89 genes genome-wide, not a broad catch-all. After the fix, all 8 genes in
+the category are real `cyp-*`/`ugt-*` family members and nothing else — inspected by
+hand, not just asserted.
+
+**Cross-checks against numbers already established elsewhere, not re-derived:**
+Folding/QC = 2 (Analysis B's strict count, exact). No-symbol count = 28 of 61
+(45.9%, matches the README exactly). Uncharacterised-by-annotation = 19 of 61 —
+independently matches Analysis D's annotation-depth control (which found 19 of 61
+carry no GO annotation) without having been built to target that number.
+
+**Explicitly not merged, on purpose:** "no gene symbol" (28) and "no GO annotation"
+(19) are different axes — only 13 genes are both. A gene can lack a public name and
+still carry real inferred annotation (`Analysis D`'s annotation-depth control already
+established the two rates aren't the same). Figure 1C must show them as what they
+are, not collapse them into one bar.
+
+---
+
+## 2026-08-19 · Figure 1 — composition (Claim 1)
+
+**Date:** 2026-08-19 · **panels merged into one file 2026-08-20**
+**Outcome:** Built and visually verified. Three panels — A: Score/variability,
+B: Score, C: category breakdown — in `figures/figure1_composition.{pdf,svg,png}`.
+`scripts/figure_1.ipynb`. Panels A/B and panel C were originally written to two
+separate files; they were merged during the pre-commit pass, since a reviewer
+expects "Figure 1" to arrive as one image rather than as parts to be assembled.
+
+Reads only from `results/regulon_61.csv` and `results/reference_genes.csv` — no
+recomputation, and every plotted number is re-asserted against the recorded figures
+in this log before the notebook draws anything (`dnj-10` 45/23, `ymel-1` 61/58,
+`hsp-6` inserted 43/29, strict census n=2, permissive-only n=3). If any of these
+were ever stale, the notebook raises instead of producing a plausible-looking wrong
+figure.
+
+Panels A/B: dual-metric rank plot per the standing rule, Score/variability first as
+the conservative metric. Score's range (68–218,882) needed a log y-axis; Score/
+variability's (5.4–37.7) did not. Panel C: category composition from
+`table_s2.ipynb`, folding/QC placed last so the paper's central comparison sits at
+the visual anchor rather than buried in the middle. "No gene symbol" (28 of 61)
+deliberately excluded as a bar segment — it overlaps the functional categories
+rather than partitioning the same 61 genes a second, incompatible way — and is
+reported as a separate annotation instead.
+
+**Two real layout defects caught by actually looking at the rendered image, not just
+executing without error.** First pass: panel C's x-axis label overlapped the legend
+text directly — visually confirmed on the first render. Second pass, overcorrecting
+the fix: the bar shrank to an illegible sliver and the panel label collided with the
+axis. Fixed by moving to explicit axes positioning (`fig.add_axes`) instead of
+fighting `tight_layout`'s interaction with a side-mounted legend. Re-rendered and
+re-inspected before accepting. A figure that executes without a Python error is not
+the same thing as a figure that is correct — both defects would have passed a
+"does the code run" check.
 
 A full pass over the repo found two recurring failure modes. Both are process
 problems, not one-off mistakes, and both had already produced conclusions that reached
@@ -730,3 +824,298 @@ WormBase mirror and verified as real gzip archives.
 
 **Standing rule:** verify that a download is what it claims to be before recording it
 as acquired. Check the file type, not just that a file exists.
+
+---
+
+## 2026-08-19 · Table 1 — the five census-relevant genes
+
+Built `scripts/table_1.ipynb` (Day 8): the two strict chaperone/protease census
+members found in the regulon (`dnj-10`, `ymel-1`) plus the three borderline genes
+the census decision named and checked but excluded on domain grounds (`prx-19`,
+`cbp-3`, `tspo-1`). Reads ranks, scores, and Soo's published binding column from
+`results/regulon_61.csv`; everything else is re-derived and validated rather than
+carried over from prose.
+
+**Domain text for the three borderline genes, read directly off the annotation
+file** rather than typed from memory, the same discipline that caught the
+`FtsH_AAA`/`Peptidase_M41` naming error in the census rebuild: `prx-19` →
+`PF04614 (Pex19)`, `cbp-3` → `PF02135 (zf-TAZ)`, `tspo-1` → `PF03073 (TspO_MBR)`.
+Exact match to the census decision's prose description of all three.
+
+**Binding reported as three separate columns, not collapsed into one**, per the
+standing rule that binding calls should never be merged when they can disagree:
+Soo's own published ChIP column, Nargund 2015's independently deposited bound-gene
+list, and this project's own operon-aware peak-to-gene reassignment (the same 2kb,
+own-or-operon-head-TSS method from Analysis C, re-derived here and re-validated
+against the same four known-true genes — `hsp-6`, `hsp-60`, `dnj-10`, `ymel-1` —
+before anything downstream trusted it). Nargund 2015 and this-study binding had
+only been checked for `dnj-10`/`ymel-1` before now; the three borderline genes
+needed the same lookup run for the first time, using the identical, already-
+validated method.
+
+**Result: all three sources agree on 4 of 5 genes.** The one disagreement is
+`ymel-1` — published column says no, both Nargund 2015 and this-study say yes —
+which is the same reconciled case already on record above ("Binding Reconciliation
+Decision, corrected"), not a new discrepancy. Wrote `results/table_1.csv` and
+`tables/table_1.csv`.
+
+---
+
+## 2026-08-19 · Figure 2 — occupancy vs. output (Claim 2)
+
+Built `scripts/figure_2.ipynb`: all 7 census-relevant genes (both reference genes
+plus the 5 from Table 1), each shown as a promoter-window occupancy track (peaks,
+gene model, TSS) paired with its induction rank on both metrics. Re-derives peak
+positions, fold-enrichment, and bound calls from the raw ChIP data and WS285
+annotation the same way `table_1.ipynb` does, and re-validates against the same
+known-true values (the four independently reconciled genes, plus the exact
+*ymel-1* peak fold-enrichment/FDR and the *tspo-1* own-TSS-vs-operon-head-TSS
+distances already on record above) before drawing.
+
+**Real layout defects caught only by cropping and zooming into the rendered PNG,
+not the full-figure thumbnail** — the same lesson as Figure 1, one level deeper.
+*ymel-1*'s operon-head-TSS marker sat just outside the first draft's ±10kb display
+window and its label bled into the row above; widened to ±12kb. Two peaks inside
+the display window belong to neighbouring genes by MACS's own gene-name
+assignment (*hsp-6*'s window shows a second peak actually called for *C37H5.6*;
+*ymel-1*'s window shows one actually called for *M03C11.3*) — both are real,
+correctly-positioned peaks, but showing them unlabelled would read as extra hits on
+the row's own gene. Now annotated with their real MACS gene name. A two-line
+"operon head TSS" label overflowed past its own row's bottom axis spine and was cut
+by it on both rows that use it (*ymel-1*, *tspo-1*) — visible only after cropping
+each row individually, not in the assembled figure. Fixed by shortening to one
+line and moving the anchor point. All three defects were real regardless of
+whether they were visually obvious at full-figure scale.
+
+**Reading the result:** occupancy and output track together at the strong end
+(*hsp-6*, bound at 11.8×, rank 29/43) and diverge sharply at the weak end
+(*hsp-60*, bound at 3.8× yet rank 62/62 — the weakest gene in the entire regulon
+despite carrying a called peak). The two strict census genes split the same way:
+*dnj-10* is unbound but ranks 23/45, *ymel-1* is bound at 13.1× but ranks 58/61.
+Binding does not predict induction strength among these 7 genes, which is the
+occupancy-side complement to the composition finding in Figure 1.
+
+---
+
+## 2026-08-19 · Figure 3 — the filtering-series test (Claim 3)
+
+Built `scripts/figure_3.ipynb`: the intersection-artifact test from Analysis A,
+re-derived independently (GO ontology and annotation parsing, the four nested
+gene sets, the structurally-defined folding-related GO category, both walk
+tables) rather than read from a stored intermediate, and validated against the
+exact percentages already on record — 0.72→0.76→1.30→3.28% (Pfam census) and
+0.74→1.53→2.48→2.38% (GO folding-related) — before drawing. Two panels: percent
+representation and fold-vs-expected, both across the same four filter stages
+(1,673 → 529 → 231 → 61 genes).
+
+**One layout defect caught by inspecting the rendered image**: the "3/231"
+sample-size label at the third point sat directly on the line segment rising
+steeply into the fourth point, legible only by looking closely. Moved
+below-left of its marker instead of the default upper-right used at the other
+three points.
+
+**What the figure shows:** the artifact hypothesis predicts falling
+representation as the AND filter tightens. Neither metric falls — the Pfam
+census rises monotonically and finishes 6.8× expected at the strict end; the
+GO-based category moves within noise (0.74→2.48%) rather than either rising
+cleanly or falling. Both readings reject the artifact hypothesis; only the
+census reading supports a positive claim about the 61, and it is captioned with
+its own uncorrected p-value rather than presented as settled.
+
+---
+
+## 2026-08-19 · Figure 4 — robustness
+
+Built `scripts/figure_4.ipynb`: three of Analysis D's five robustness checks,
+re-derived independently and validated against the exact recorded values before
+drawing (the full metric-sensitivity scatter is reserved for Figure S2, not
+repeated here). Panel A: expression-matched annotation-depth control (observed
+68.9% vs. expected 61.5%, p=0.292 — no gap once expression level is controlled
+for). Panel B: *isp-1* concordance (57 of 61, four named exceptions, captioned
+as same-lab/same-pipeline concordance rather than independent validation).
+Panel C: absolute CPM for the union of top-10 genes on either ranking metric
+(17 genes), flagging *F22B3.7* by name — 9 of 12 WT replicates are exactly
+zero, so a fold-change reading for that gene is undefined rather than merely
+large.
+
+**Two text-collision defects in Panel B, both caught only by inspecting the
+rendered image.** First draft: the exceptions list and the italic caption both
+sat near the top of the axes and overlapped. Second draft, after separating
+them: still collided in the same region because the fix moved position without
+increasing the vertical gap. Resolved by merging the exceptions list and the
+"N of 61" count into a single text block placed once, well clear of both the
+bar and the caption — the same lesson as Figures 1–3, that a fix has to be
+re-inspected rather than assumed to have worked.
+
+---
+
+## 2026-08-19 · Table S1 — full 72-gene census
+
+Built `scripts/table_s1.ipynb`: the complete chaperone/protease census as a
+supplementary table, with the inclusion rule written out in full and a flag for
+which of the 72 also appear in the 61-gene high-confidence regulon. Re-runs the
+independent reproduction from the raw annotation file (the same check
+`census_build.ipynb` performs) before formatting rather than trusting the
+frozen CSV on its own, and confirms the regulon-membership flag lands on
+exactly `dnj-10` and `ymel-1` — the same fact Analysis B already established,
+now visible from the census's side rather than the regulon's side. Wrote
+`results/table_s1_census.csv`, `tables/table_s1_census.csv`, and
+`tables/table_s1_census_note.txt` (the inclusion-rule text for the caption).
+
+---
+
+## 2026-08-19 · Figure S2 — metric sensitivity
+
+Built `scripts/figure_s2.ipynb`: the full Score-vs-Score/variability rank-rank
+scatter for all 61 regulon genes, deliberately deferred out of Figure 4 to keep
+that figure to a single-page summary. Re-derives both rankings from the source
+file and validates the Spearman correlation (rho=0.417) and top-10 overlap (3
+of 10) against Analysis D's recorded numbers before drawing. Points are
+coloured by top-10-list membership under either metric; the five
+census-relevant genes are outlined and labelled.
+
+**One label-collision defect caught by inspecting the rendered image**:
+*dnj-10* and *tspo-1* sit only 2 ranks apart on each axis, and the default
+upper-right label offset put *tspo-1*'s text directly on *dnj-10*'s marker.
+Moved *tspo-1*'s label below-left; the other four census labels kept their
+default placement, which had clear space around them already.
+
+---
+
+## 2026-08-19 · Figure S1 — pipeline validation
+
+Built `scripts/figure_s1.ipynb`: the GO enrichment pipeline's positive control,
+re-derived independently and validated against the exact recorded numbers
+before drawing. The 72-gene Pfam census (built from protein domains, with no
+reference to GO at any point) against the expressed background recovers
+"protein folding" as the single most significant enriched term — 45 of 62
+annotated census genes, 57× expected, FDR = 1.55e-71 — which is what
+establishes that the pipeline used for the regulon (Analysis A) and the
+filtering series (Figure 3) actually works, rather than assuming it does. Top
+8 enriched terms shown; no layout defects on this one.
+
+---
+
+## 2026-08-19 · Figure S3 — peak-assignment window sensitivity
+
+Built `scripts/figure_s3.ipynb`: the binding-window and operon-logic sweep
+that the earlier binding-reconciliation note ("Binding Reconciliation
+Decision, corrected") only ever described qualitatively — "a sensitivity
+check across 1kb/2kb/5kb windows... is what surfaced this" — without the
+numbers themselves being run end-to-end and recorded anywhere. This notebook
+is that sweep, actually executed: 6 window sizes (0.5–10kb) × with/without
+operon logic, against the primary condition-matched set (391 Table S3 genes),
+using the identical peak-assignment method as `analysis_c.ipynb` /
+`table_1.ipynb` / `figure_2.ipynb`. The reported headline (101 of 391, 25.8%
+at 2kb with operon logic) reproduces exactly.
+
+A first version scanned every gene against every peak per sweep point (fine
+for the single number `analysis_c.ipynb` needed, far too slow for 12 sweep
+points — it did not finish in two minutes and was killed). Rewritten with
+per-chromosome sorted TSS arrays and binary search instead of a linear scan;
+same rule, same answer at 2kb, ~75 seconds for the full sweep.
+
+**What it shows:** operon logic only ever adds genes, never removes them
+(the blue "own-or-head" line sits at or above the grey "own-TSS-only" line at
+every window), consistent with it being a genuine recovery of otherwise-missed
+binding rather than a free parameter that could cut either way. The reported
+2kb choice sits in the flatter part of the curve (≈20–26% across 0.5–3kb)
+rather than at a spike — the percentage only climbs steeply past 5kb, where a
+window this wide starts plausibly picking up unrelated neighbouring genes
+rather than real regulatory proximity.
+
+---
+
+## 2026-08-20 · Pre-commit pass over the figures
+
+**Date:** 2026-08-20
+**Outcome:** Every figure re-rendered on a shared house style; six presentation
+defects found and fixed, one of them a misspelt gene name. No number changed.
+
+Run before committing the figure work. All seven figure notebooks and both table
+notebooks were re-executed from scratch; every validation assertion in them still
+passes against the frozen inputs, so nothing in this pass touched a result.
+
+**House style.** `scripts/figure_style.py` now sets the conventions this literature
+actually uses — left and bottom axes only, outward ticks, frameless legends inside
+the panel, bold letters at the panel corner — on a 9pt base rather than 8pt. The
+Wong colour-blind-safe palette is unchanged; the point was to stop the panels
+reading as generic plotting-library output next to published UPRmt figures, not to
+restate the colour decision.
+
+**Defects found by looking at the renders, one per figure that had one:**
+
+- *Figure 1* — on the Score ranking, *dnj-10*'s marker sat on top of the *hsp-6*
+  label and covered its first letter, so the label read "nsp-6". A misspelt gene
+  name is the worst class of defect here: it is silently wrong, and it is wrong in
+  the one direction a reader will not question. Label moved to the other side.
+- *Figure 2* — three. The legend advertised an orange "peak present, not called
+  bound" class that is never drawn, because every gene in the panel that has a peak
+  at all is also called bound; the legend is now built from what was actually
+  drawn. Every row carried a bare bottom axis line, six of which read as table
+  borders; only the bottom row keeps its axis now. Blue meant "ATFS-1 peak" in
+  panel A and "Score/variability rank" in panel B — two unrelated meanings for one
+  colour in one figure — so panel B moved to ink/grey. The operon-head marker is
+  identified in the legend rather than labelled per row, having had nowhere to sit
+  that did not collide with either the row axis or the peak labels.
+- *Figure 3* — the fold-change axis was printing matplotlib's "6 x 10^0" form.
+  Replaced with plain numbers.
+- *Figure 4* — the panel B caption ran into the y-axis tick labels and the panel C
+  title ran into panel A's tick labels, both consequences of the larger base font.
+  Re-laid out.
+- *Figure S1* — the GO namespace was being truncated to its first two characters,
+  giving "(bi)" and "(mo)". These are now the conventional BP/MF, and the notebook
+  raises on any namespace it has no abbreviation for rather than inventing one.
+- *Figure S3* — the "Reported" annotation overlapped the own-TSS-only line. Moved.
+- *Figure S2* — legend read "var only"/"score only", working shorthand that should
+  not have reached a finished figure. Spelled out.
+
+The pattern is the same one this log has recorded since Figure 1: these all
+executed without a Python error, and none of them would have been caught by
+re-running the notebook. They were found by cropping into the rendered PNG and
+looking at it.
+
+**Two further defects that the image would never have shown.**
+
+*A `fillna` in Figure 1*, the one violation of this repo's no-silent-fallbacks
+rule anywhere in the notebooks. `value_counts().reindex(CATEGORY_ORDER).fillna(0)`
+turns a category renamed upstream in `table_s2.ipynb` into a zero-height bar
+rather than an error. Replaced with an explicit check that the categories on both
+sides match, which raises and names the difference.
+
+*Figure 1's page was 185mm wide, over the journal's 180mm maximum.* The panels
+span the whole canvas, so `savefig`'s tight bounding box plus its padding pushed
+the page past the limit — and nothing in the image looks wrong when it happens.
+Panel C's side legend was the original overhang; narrowing that panel and trimming
+the canvas to 0.98 x the full width brings it to 177mm. All seven figures were
+then checked by reading the `/MediaBox` out of each PDF directly: widest is now
+177.1mm, tallest 164.9mm, all within 180 x 210mm, all with Arial embedded as
+TrueType so the text stays editable.
+
+**Verification.** All 17 notebooks re-executed end to end and every assertion in
+them passes. Separately, 19 headline numbers were recomputed from the source
+files by a script sharing no code with the notebooks — regulon size, Soo's bound
+column, *isp-1* concordance, all five census-relevant gene ranks on both metrics,
+genes above *hsp-6* on both metrics, census size and role split, census
+membership in the regulon, and the row counts and column structure of all three
+tables. 19 of 19 match.
+
+**A reproducibility defect found by re-running, not by reading.** Re-executing
+`analysis_a.ipynb` from unchanged source produced a different file. The cause is
+benign but worth fixing: four GO terms carry byte-identical statistics (k=2,
+expected 0.049, 40.6x, p=0.41), and `sort_values("p_enrich")` left their relative
+order to fall out of set iteration, which varies with Python's per-process hash
+seed. Ties are now broken on `go_id` in `analysis_a.ipynb` and `figure_s1.ipynb`.
+This is a display-order change only — the tied rows are identical in every
+reported column, and every headline number from Analysis A is unchanged
+(glucuronosyltransferase 17.2x / FDR 0.041; the 0.72 -> 3.28% filtering series;
+2 of 61 at 6.8x, uncorrected p=0.0352, Bonferroni 0.141). Confirmed by running
+the notebook twice and diffing: byte-identical.
+
+This does not reopen the Gate 2 freeze. No statistic was recomputed and no value
+moved; a sort key was made deterministic so that re-running the repository
+returns the same file, which is the property the freeze exists to protect.
+
+`analysis_c.ipynb` also showed a diff on re-execution. That one is not a defect:
+the identical text was split across two stream outputs instead of three by
+Jupyter's output buffering. Checked and left alone.

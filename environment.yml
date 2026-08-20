@@ -23,6 +23,7 @@ dependencies:
   - scipy=1.17.1
   - statsmodels=0.14.6
   - openpyxl=3.1.5          # reads the .xlsx supplementary tables
+  - matplotlib=3.11.1       # figures only; Arial/Helvetica must be available for Biology Open's font spec
   - jupyterlab
   - nbconvert               # only needed to re-execute notebooks headlessly
   - ucsc-liftover           # ce6 -> ce11 peak conversion; output already committed
