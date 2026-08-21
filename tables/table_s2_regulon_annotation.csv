@@ -1,0 +1,62 @@
+wbgene,seqname,public_name,category,has_symbol,go_annotated,rank_score,rank_var
+WBGene00001028,F22B7.5,dnj-10,Folding/QC (census),True,True,45,23
+WBGene00010842,M03C11.5,ymel-1,Folding/QC (census),True,True,61,58
+WBGene00003705,T27B7.4,nhr-115,Innate immunity,True,True,19,34
+WBGene00003091,Y22F5A.5,lys-2,Innate immunity,True,True,24,39
+WBGene00010127,F55G11.7,F55G11.7,Innate immunity,False,True,5,52
+WBGene00017726,F22H10.2,F22H10.2,Innate immunity,False,True,30,53
+WBGene00010705,K09A11.2,cyp-14A1,Xenobiotic detoxification,True,True,12,6
+WBGene00019515,K08B4.3,ugt-19,Xenobiotic detoxification,True,True,13,7
+WBGene00019967,R08F11.3,cyp-33C8,Xenobiotic detoxification,True,True,10,9
+WBGene00011564,T07C5.1,ugt-50,Xenobiotic detoxification,True,True,38,16
+WBGene00018206,F39G3.1,ugt-61,Xenobiotic detoxification,True,True,21,19
+WBGene00010904,M88.1,ugt-62,Xenobiotic detoxification,True,True,17,24
+WBGene00011009,R04D3.1,cyp-14A4,Xenobiotic detoxification,True,True,3,37
+WBGene00007885,C33A12.6,ugt-21,Xenobiotic detoxification,True,True,35,51
+WBGene00011305,R186.1,hrg-9,Other annotated function,True,True,8,2
+WBGene00010724,K09E9.1,K09E9.1,Other annotated function,False,True,32,3
+WBGene00045418,F15B9.10,F15B9.10,Other annotated function,False,True,36,4
+WBGene00016046,C24B5.4,C24B5.4,Other annotated function,False,True,27,8
+WBGene00018955,F56C11.3,F56C11.3,Other annotated function,False,True,23,10
+WBGene00003680,ZK488.2,nhr-90,Other annotated function,True,True,28,11
+WBGene00003960,F54D5.1,pcs-1,Other annotated function,True,True,48,14
+WBGene00016698,C46A5.1,C46A5.1,Other annotated function,False,True,31,18
+WBGene00004201,F54F2.8,prx-19,Other annotated function,True,True,54,20
+WBGene00077771,C41G7.9,tspo-1,Other annotated function,True,True,42,21
+WBGene00004932,C08A9.1,sod-3,Other annotated function,True,True,16,22
+WBGene00010215,F57G8.6,nhr-193,Other annotated function,True,True,18,25
+WBGene00007691,C23H4.2,cest-8,Other annotated function,True,True,14,27
+WBGene00001813,F57A10.3,haf-3,Other annotated function,True,True,51,28
+WBGene00013532,Y73F8A.27,Y73F8A.27,Other annotated function,False,True,49,29
+WBGene00016442,C35D10.5,C35D10.5,Other annotated function,False,True,46,30
+WBGene00017861,F27D9.2,F27D9.2,Other annotated function,False,True,41,31
+WBGene00000767,C35D10.4,coq-8,Other annotated function,True,True,50,33
+WBGene00016294,C31H2.4,C31H2.4,Other annotated function,False,True,37,36
+WBGene00000761,C24A11.9,coq-1,Other annotated function,True,True,47,38
+WBGene00020015,R11G11.12,nhr-210,Other annotated function,True,True,29,42
+WBGene00010810,M01F1.4,M01F1.4,Other annotated function,False,True,59,44
+WBGene00011274,R53.5,R53.5,Other annotated function,False,True,58,46
+WBGene00003655,Y17D7A.3,nhr-65,Other annotated function,True,True,52,47
+WBGene00012583,Y38E10A.5,clec-4,Other annotated function,True,True,22,48
+WBGene00012362,W09D10.4,W09D10.4,Other annotated function,False,True,60,55
+WBGene00009595,F40F12.7,cbp-3,Other annotated function,True,True,44,57
+WBGene00013091,Y51B9A.9,Y51B9A.9,Other annotated function,False,True,43,60
+WBGene00015573,C07G1.7,C07G1.7,Uncharacterised (no GO annotation),False,False,1,1
+WBGene00008296,C54D10.1,cdr-2,Uncharacterised (no GO annotation),True,False,11,5
+WBGene00010273,F58G6.2,srm-3,Uncharacterised (no GO annotation),True,False,9,12
+WBGene00017082,DC2.5,DC2.5,Uncharacterised (no GO annotation),False,False,20,13
+WBGene00018267,F41C3.1,F41C3.1,Uncharacterised (no GO annotation),False,False,6,15
+WBGene00007991,C37A5.7,C37A5.7,Uncharacterised (no GO annotation),False,False,33,17
+WBGene00010238,F58B4.5,F58B4.5,Uncharacterised (no GO annotation),False,False,25,26
+WBGene00009038,F22B3.7,F22B3.7,Uncharacterised (no GO annotation),False,False,2,32
+WBGene00012058,T26F2.2,T26F2.2,Uncharacterised (no GO annotation),False,False,34,35
+WBGene00008477,E03H4.10,clec-17,Uncharacterised (no GO annotation),True,False,4,40
+WBGene00008816,F14F8.8,F14F8.8,Uncharacterised (no GO annotation),False,False,7,41
+WBGene00019261,H34I24.2,H34I24.2,Uncharacterised (no GO annotation),False,False,53,43
+WBGene00021654,Y47G7B.2,Y47G7B.2,Uncharacterised (no GO annotation),False,False,40,45
+WBGene00018874,F55C12.7,tag-234,Uncharacterised (no GO annotation),True,False,57,49
+WBGene00018655,F49H12.4,F49H12.4,Uncharacterised (no GO annotation),False,False,26,50
+WBGene00009396,F35C5.8,clec-65,Uncharacterised (no GO annotation),True,False,55,54
+WBGene00008372,D1054.5,D1054.5,Uncharacterised (no GO annotation),False,False,56,56
+WBGene00019738,M02F4.7,clec-265,Uncharacterised (no GO annotation),True,False,39,59
+WBGene00016923,C54F6.5,C54F6.5,Uncharacterised (no GO annotation),False,False,15,61

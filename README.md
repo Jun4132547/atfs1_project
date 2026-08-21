@@ -10,9 +10,9 @@ accessions listed below.
 
 ## Environment
 
-Built and run on macOS (Apple Silicon), Python 3.11. The full specification is in
-`environment.yml`, pinned to the versions the committed notebook outputs were
-produced under.
+macOS (Apple Silicon), conda environment `atfs1` — Python 3.11, pinned in
+`environment.yml` to the versions the committed notebook outputs were produced
+under.
 
 ```
 conda env create -f environment.yml
@@ -20,14 +20,14 @@ conda activate atfs1
 jupyter lab
 ```
 
-Every notebook resets its working directory to the project root in the first cell, so
-each runs correctly from either `scripts/` or the repo root, and each runs
-top-to-bottom without depending on any other notebook having been run first.
+The notebook resets its working directory to the project root on the first cell, so
+each one runs correctly from either `scripts/` or the repo root, and runs
+top-to-bottom on its own — no notebook depends on another having been run first.
 
 The only external tool is `ucsc-liftover`, used once for the ce6 → ce11 peak
 conversion; its output is committed, so nothing needs to be re-lifted to reproduce
-the analyses. No step reaches the network at runtime — every input is a file listed
-in the table below.
+the analyses. Nothing here reaches the network at runtime — every input is a file
+listed in the table below.
 
 ### Reproducing the analyses
 
@@ -135,6 +135,7 @@ those three phrasings would be contradicted by our own results.
 - **2026-08-19** — Built Figure S2 (`scripts/figure_s2.ipynb`): the full Score-vs-Score/variability rank-rank scatter for all 61 genes, deferred out of Figure 4 to keep that one to a single-page summary. Validates Spearman rho=0.417 and the 3-of-10 top-10 overlap before drawing. One label-collision defect (two census genes only 2 ranks apart) fixed after inspecting the rendered image. Details in `gate_decisions.md`.
 - **2026-08-19** — Built Figure S1 (`scripts/figure_s1.ipynb`): the GO enrichment pipeline's positive control, re-derived and validated against the recorded numbers. The Pfam census (never told about GO) recovers "protein folding" as its single most significant enriched term (57×, FDR=1.55e-71), which is what establishes the pipeline used everywhere else actually works. No layout defects. Details in `gate_decisions.md`.
 - **2026-08-19** — Built Figure S3 (`scripts/figure_s3.ipynb`): the peak-assignment window/operon-logic sensitivity sweep that an earlier note described qualitatively but never actually ran with numbers. 6 windows (0.5–10kb) × with/without operon logic against the 391-gene primary set; the reported headline (101 of 391, 25.8% at 2kb) reproduces exactly, and sits in the flat part of the curve rather than a spike. First version too slow to finish (O(genes × peaks) per sweep point); rewritten with sorted-array binary search. Details in `gate_decisions.md`.
+- **2026-08-21** — All three tables (Table 1, Table S1, Table S2) now export as manuscript-ready PDFs, on the same journal spec and font as the figures, via a new shared renderer (`scripts/table_style.py`). Two defects fixed before accepting the output: character-count text wrapping didn't track actual rendered width and let a domain string overflow into the next column, and gene names were sorted as plain strings (`dnj-10` before `dnj-2`) rather than in natural numeric order. `results/regulon_61.csv` and `results/reference_genes.csv` confirmed byte-identical before and after by MD5 — only the human-facing `tables/` copies were reordered for readability. Details in `gate_decisions.md`.
 - **2026-08-20** — Pre-commit pass over the figures. Re-executed all 17 notebooks from scratch (every validation assertion still passes) and independently recomputed 19 headline numbers from source with code sharing nothing with the notebooks (19/19 match; no number changed). Put every figure on a single house style in `scripts/figure_style.py`. Eight defects found and fixed: six presentation — including a *dnj-10* marker covering the first letter of the *hsp-6* label in Figure 1, so it read "nsp-6", and a Figure 2 legend advertising a colour that is never drawn — plus a `fillna` that violated the no-silent-fallbacks rule, and Figure 1 exceeding the journal's 180 mm width limit at 185 mm. Also fixed a reproducibility defect in `analysis_a.ipynb`: tied GO terms sorted in hash order, so re-running produced a different file. Ties now break on `go_id`; display order only, no value changed. Figure 1's two output files merged into one three-panel figure. Details in `gate_decisions.md`.
 
 ## Known open items

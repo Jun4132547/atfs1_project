@@ -2,5 +2,5 @@ public_name,seqname,pfam_domain,census_rule,rank_score_var,rank_score,bound_publ
 dnj-10,F22B7.5,DnaJ,Strict census (chaperone),23,45,No,No,No
 ymel-1,M03C11.5,Peptidase_M41,Strict census (protease),58,61,No,Yes,Yes
 prx-19,F54F2.8,PF04614 (Pex19),"Permissive only - excluded, no census domain",20,54,Yes,Yes,Yes
-cbp-3,F40F12.7,PF02135 (zf-TAZ),"Permissive only - excluded, no census domain",57,44,No,No,No
 tspo-1,C41G7.9,PF03073 (TspO_MBR),"Permissive only - excluded, no census domain",21,42,Yes,Yes,Yes
+cbp-3,F40F12.7,PF02135 (zf-TAZ),"Permissive only - excluded, no census domain",57,44,No,No,No

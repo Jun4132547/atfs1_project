@@ -1119,3 +1119,60 @@ returns the same file, which is the property the freeze exists to protect.
 `analysis_c.ipynb` also showed a diff on re-execution. That one is not a defect:
 the identical text was split across two stream outputs instead of three by
 Jupyter's output buffering. Checked and left alone.
+
+---
+
+## 2026-08-21 · Table PDFs
+
+**Date:** 2026-08-21
+**Outcome:** All three tables (Table 1, Table S1, Table S2) now export as
+manuscript-ready PDFs alongside their CSVs, on the same journal spec and font as
+the figures. Two real defects fixed before accepting the output.
+
+Added `scripts/table_style.py`: a plain three-line table renderer (rule above the
+header, rule under it, rule at the foot, no vertical gridlines, no shading) that
+paginates by measured height so nothing runs off a page, and repeats the header
+on every page of a multi-page table. `table_1.ipynb`, `table_s1.ipynb`, and
+`table_s2.ipynb` each gained a final cell calling it; no existing cell in any of
+the three was touched except to sort rows for display (below), so nothing
+upstream of the CSV output changed.
+
+**First defect: character-count wrapping does not track rendered width.** A
+first version of `table_style.py` decided line wraps from a guessed
+characters-per-line number, on the assumption that a domain string like
+"PF03073 (TspO_MBR)" (19 characters) was short enough to leave on one line. It
+was not, at 8pt Arial, in that column's width - it overflowed into the next
+column, invisible until the rendered PDF was actually opened. The multi-line
+column headers had the same problem the other way: three lines of header text
+were given a fixed, too-small height allowance, so the third line printed on top
+of the header rule and the first data row. Rewritten to measure real glyph width
+with a throwaway figure and renderer before laying out any page, and to size the
+header band from however many lines the headers actually need rather than a
+guess. Both defects were caught by opening the rendered PDF, not by the code
+running without error.
+
+**Second defect: gene names were sorted as plain strings.** `dnj-10` sorted
+before `dnj-2`, because `"dnj-10" < "dnj-2"` character-by-character. Fixed with a
+natural-sort key (digit runs zero-padded before comparison, then discarded) in
+`table_s1.ipynb`; confirmed the fix by reading the rendered page rather than
+trusting the sort call. `hsp-16.2` correctly sorts before `hsp-16.11` under this
+key, which is the right semantics here — these are sequential subunit numbers,
+not decimal fractions.
+
+**Display sorting, applied only to the human-facing `tables/` copy, never to the
+`results/` copy other notebooks read from:**
+- Table 1: strict-census genes first (the headline 2), then permissive-only,
+  each group by Score/variability rank ascending.
+- Table S1: chaperones before proteases (65/7, the majority-first framing used
+  throughout), then natural gene-name order within each role.
+- Table S2: functional category (Folding/QC first, matching Figure 1's anchor
+  placement), then Score/variability rank within category.
+
+**Verification.** All three CSVs re-checked against their known row/column
+counts (5/9, 72/6, 61/8) after sorting - membership and every value are
+unchanged, only row order differs from the `results/` copies. `results/regulon_61.csv`
+and `results/reference_genes.csv` (written by `table_s2.ipynb`, read by every
+figure notebook) confirmed byte-identical by MD5 before and after this change.
+All 17 notebooks re-executed end to end afterward; every assertion still passes.
+Page sizes read from each PDF's own `/MediaBox`: widest 159mm, tallest 196mm,
+both within the 180 x 210mm limit.
