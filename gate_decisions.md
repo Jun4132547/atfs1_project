@@ -25,7 +25,7 @@ under Standing rules.
 The original entry read "Confirmed independently promoted — queried WormBase official
 API for C07G1.7 and F22B3.7. Neither gene is a downstream operon member."
 
-We do not think that result is supported. The notebook cell wrapped the API call in a
+That result is not supported. The notebook cell wrapped the API call in a
 bare `except` that printed "Independently promoted (Not in an operon)" on *any*
 failure, meaning the output would look identical whether the gene was really
 independent or the call had simply failed. The WormBase REST endpoint returns 403 to
@@ -60,8 +60,8 @@ We mapped 1,005 of 1,005 peaks to ce11 with UCSC `liftOver`. Zero unmapped
 **Outcome:** *ymel-1* is bound. 3 of 4 chaperone/QC genes agree between Soo's column and Nargund 2015; *ymel-1* is a genuine, evidenced disagreement, not a wash.
 
 The original entry read "Nargund 2015 Table S1 and Soo's column L agree... *dnj-10*
-and *ymel-1* unbound." We do not think that was a real agreement, but a false negative
-caused by a naming gap: the Day 3 search for *ymel-1* only tried `"ymel-1"` and
+and *ymel-1* unbound." That was not a real agreement, but a false negative caused by
+a naming gap: the Day 3 search for *ymel-1* only tried `"ymel-1"` and
 `"M03C11.5"` against Nargund 2015's table, but the table predates WormBase's later
 nomenclature cleanup and lists the gene under its 2015-era name, **`yme-1`** (after
 yeast *YME1*) — row 125, described as *"i-AAA mitochondrial protease,"* sitting
@@ -296,8 +296,18 @@ exact match — an honest gap is more defensible than a silently rounded one.
 
 ## Day 5 · Analysis C — occupancy vs. output (Claim 2)
 
-**Date:** 2026-08-13
+**Date:** 2026-08-13 · **numbers corrected 2026-08-26**
 **Outcome:** Primary (condition-matched): 101 of 391 spg-7 ATFS-1-dependent genes are bound (25.8%). Secondary (cross-condition): 29 of 61 regulon genes are bound. Both computed from an independent, validated peak-to-gene assignment, not assumed from Soo's column.
+
+> **Superseded 2026-08-26 — please do not cite the numbers below without reading
+> this first.** We found a Table S3 gene-ID resolution gap that meant 10 real
+> genes were silently dropped from the 391-gene denominator's `bound` calculation.
+> Corrected: **104 of 391 (26.6%)** bound, not 101 of 391 (25.8%). Separately, the
+> "not yet individually verified" line below about the other 6 disagreement genes
+> is now out of date too — we have since checked them; 3 hold up, 3 rest on weaker
+> evidence. See the "2026-08-26 · spg-7(RNAi) is a defining condition of the 61"
+> entry near the end of this file for the full correction, including why it
+> reaches back into this entry at all.
 
 **Method.** We built an operon-aware peak-to-gene assignment from the real WS285
 annotation and the lifted GSE63803 peaks (`scripts/analysis_c.ipynb`): a gene counts
@@ -395,10 +405,19 @@ must be able to see exactly what changes.
 
 ## Day 6 · Analysis A — composition and GO enrichment of the regulon
 
-**Date:** 2026-08-13
+**Date:** 2026-08-13 · **three-way intersection corrected 2026-08-26**
 **Outcome:** The intersection-artifact hypothesis is rejected. One category reaches
 significance (glucuronosyltransferase activity, 17.2×, FDR 0.041). Folding machinery
 is **not** depleted relative to the expressed background, which constrains how
+
+> **Superseded 2026-08-26 — the numbers below are wrong, the conclusion is not.**
+> We later found that every "231", "1.30%", "2.68×", and "p=0.101" below refers to
+> a three-way intersection built from only two of Soo's three real conditions (it
+> was missing spg-7(RNAi)). Corrected, the three-way intersection is **67 genes**:
+> 2 census genes, 2.99%, 6.16×, p=0.0417. The intersection-artifact rejection and
+> the monotonic-rise finding both still hold - see the "2026-08-26 · spg-7(RNAi)
+> is a defining condition of the 61" entry near the end of this file for the full
+> correction and the corrected walk table.
 Claim 1 can be worded.
 
 `scripts/analysis_a.ipynb`. Inputs: GO annotations (`ref_data/go/wb.gaf.gz`, GOC
@@ -562,9 +581,11 @@ asks that the framing be fixed today. Here is the evidence we assembled from
 Analyses A–D:
 
 - Census count (B) is stable across metrics: 2/61 strict, 5/61 permissive on both.
-- Composition (A) *rises* with looser filtering (61 → 231 → 529 → 1,673) — the
-  intersection artefact is rejected, so the scarcity is a property of the
-  high-confidence set specifically, not the regulon-construction method.
+- Composition (A) *rises* with looser filtering (61 → 231 → 529 → 1,673 — the 231
+  figure is corrected to 67 as of 2026-08-26, see that entry; the rise itself is
+  unaffected) — the intersection artefact is rejected, so the scarcity is a
+  property of the high-confidence set specifically, not the regulon-construction
+  method.
 - Direction (A): 2/61 is 6.8× the expected count against the expressed background,
   not significant either way at this n, but the opposite of depletion.
 - Metric sensitivity (D): ρ=0.42, census membership stable, individual ranks not.
@@ -639,7 +660,9 @@ actually produced by the environment the repo tells a reader to use. We re-execu
 all six notebooks under `atfs1` (Python 3.11.15); provenance is now uniform, and
 every headline result — 2 of 61, 5 of 61 permissive, 101 of 391, 29 of 61, 57 of 61,
 ρ=0.417, 9 of 12, the 529 exact match, the Analysis A validation and 6.8× figure —
-is unchanged.
+is unchanged (the environment fix, specifically, changed nothing; the 101 of 391
+figure was independently corrected to 104 of 391 for an unrelated reason on
+2026-08-26 — see that entry).
 
 **Defect 3 — the environment was documented but not specified.** There was no
 `environment.yml` or `requirements.txt`, meaning "conda environment `atfs1`" was not
@@ -915,7 +938,15 @@ the occupancy-side complement to the composition finding in Figure 1.
 
 ---
 
-## 2026-08-19 · Figure 3 — the filtering-series test (Claim 3)
+## 2026-08-19 · Figure 3 — the filtering-series test (Claim 3) · **data corrected 2026-08-26**
+
+> **Superseded 2026-08-26.** We found that the 231-gene "three-way" stage
+> described below (and the figure it originally produced) was missing
+> spg-7(RNAi) as a condition. We corrected and re-rendered the notebook; the real
+> three-way intersection is 67 genes (2.99% census representation, not 1.30%).
+> See the "2026-08-26 · spg-7(RNAi) is a defining condition of the 61" entry near
+> the end of this file. We left the description below as originally written, for
+> the historical record.
 
 We built `scripts/figure_3.ipynb`: the intersection-artifact test from Analysis A,
 re-derived independently (GO ontology and annotation parsing, the four nested gene
@@ -1013,7 +1044,18 @@ this one.
 
 ---
 
-## 2026-08-19 · Figure S3 — peak-assignment window sensitivity
+## 2026-08-19 · Figure S3 — peak-assignment window sensitivity · **data corrected 2026-08-26**
+
+> **Superseded 2026-08-26.** We found that this notebook carried its own
+> separate copy of the Table S3 loading code, with the same seqname-only
+> gene-ID resolution gap fixed in `analysis_c.ipynb` on 2026-08-26 — we missed it
+> in that first pass, and only caught it afterward, in an outside review of
+> `gate_decisions.md`. Now fixed: the headline at 2kb reproduces as **104 of 391
+> (26.6%)**, not 101 of 391 (25.8%), meaning the full sweep table below is
+> superseded accordingly. The shape of the sweep and its conclusion (operon logic
+> only ever adds genes; 2kb sits in the flat part of the curve, not a spike) are
+> unchanged. See the "2026-08-26 · spg-7(RNAi) is a defining condition of the 61"
+> entry for the corrected sweep table and the rest of this correction.
 
 We built `scripts/figure_s3.ipynb`: the binding-window and operon-logic sweep that
 the earlier binding-reconciliation note ("Binding Reconciliation Decision,
@@ -1198,15 +1240,18 @@ widest 159mm, tallest 196mm, both within the 180 x 210mm limit.
 
 ## 2026-08-26 · spg-7(RNAi) is a defining condition of the 61, not an independent comparison
 
-**Date:** 2026-08-26
+**Date:** 2026-08-26 · **addendum same day** (`figure_s3.ipynb` miss, `nhr-115`
+cross-reference - both below)
 **Outcome:** `analysis_a.ipynb`'s "three-way intersection" (231 genes) was only
 ever built from two of Soo's three real conditions. Corrected to 67 genes, which
 now contains all 61 of Soo's published genes - something the 231-gene version
 never actually achieved. The same missing condition also reached into Analysis C's
-headline binding statistic: **101 of 391 (25.8%) corrected to 104 of 391 (26.6%)**.
-Claim 1's own numbers (2 of 61, 6.8×, p=0.035) are untouched, and the
-filtering-series conclusion (intersection-artifact hypothesis rejected) holds up -
-if anything it reads more cleanly on the corrected numbers than it did before.
+headline binding statistic: **101 of 391 (25.8%) corrected to 104 of 391 (26.6%)**
+(a third notebook, `figure_s3.ipynb`, needed the identical fix and was missed in
+the first pass - see the addendum below). Claim 1's own numbers (2 of 61, 6.8×,
+p=0.035) are untouched, and the filtering-series conclusion (intersection-artifact
+hypothesis rejected) holds up - if anything it reads more cleanly on the corrected
+numbers than it did before.
 
 This came up while explaining the filtering series during writing, not during
 analysis: what exactly narrows the 231-gene three-way intersection down to Soo's
@@ -1314,10 +1359,58 @@ for the peak, not just pipeline set-membership.
   than a MACS-named hit, and should be stated as such if the 29/61 cross-condition
   figure or these specific genes are cited individually.
 
-**Verification.** All three affected notebooks (`analysis_a.ipynb`,
-`analysis_c.ipynb`, `figure_3.ipynb`) re-executed clean with hard-coded expected
-values for every changed number (67, the 6 named extra genes, 104, 3 unresolved
-Table S3 rows), meaning a stale re-run would raise rather than silently pass. No
-other notebook reads from any of these three, so nothing else needed re-running
-for this change specifically (the full 17-notebook suite was re-run anyway; see
-below).
+**A direct tension between the two sections just above, worth stating rather than
+leaving for a reader to notice.** We realised `nhr-115` appears in both: it is one
+of the 3 newly-resolved genes whose "bound" call moves the Claim 2 headline from
+101 to 104, and it is also one of the 3 genes we flagged immediately above as
+resting on weak evidence (a nearby peak MACS itself attributed to `nhr-226`, not
+`nhr-115`). Both statements are true about the same gene, same peak, same
+underlying fact - we had just never connected them. Concretely, this means that of
+the 104 in the corrected Claim 2 headline, at least one (`nhr-115`) rests on the
+identical weaker evidentiary basis this entry calls insufficient two paragraphs
+up. We have not yet individually checked `abf-2` and `coq-1`, the other two
+newly-resolved bound genes, against MACS's own gene-name annotation the way we
+checked the 6 long-open disagreements - we should do that before treating the 104
+figure as uniformly solid.
+
+**Addendum, found after we first wrote this entry.** An outside review of this
+log caught two things we missed on the first pass, both now fixed:
+
+1. **`figure_s3.ipynb` had its own separate, unfixed copy of the Table S3 loading
+   code.** We never applied the seqname-only resolution fix from `analysis_a.ipynb`,
+   `analysis_c.ipynb`, and `figure_3.ipynb` above to this notebook, because it
+   re-implements the same loading logic independently rather than importing it -
+   meaning "no other notebook reads from any of these three" (below) was wrong;
+   it should have read "no other notebook **imports** this code, but one
+   duplicates it." We fixed it the same way (seqname → public name → symbol
+   fallback); the reported headline at 2kb+operon-logic corrects from 101 of 391
+   (25.8%) to **104 of 391 (26.6%)**, matching Analysis C exactly, as it always
+   should have. The full sweep shifts by 1-9 genes at every window size, but the
+   shape and conclusion are unchanged: operon logic still only ever adds genes,
+   never removes them, and 2kb still sits in the flat part of the curve rather
+   than at a spike. We re-rendered it and re-inspected visually; no new layout
+   defects.
+2. **This entry did not connect the two `nhr-115` mentions** — see the paragraph
+   directly above, added for the same reason.
+3. **The Day 7 / Gate 2 evidence readout (`analysis_d.ipynb`) printed the stale
+   "61 -> 231 -> 529 -> 1,673" line as live narrative output**, not just a
+   historical record, meaning re-running that notebook today would have kept
+   printing the wrong number indefinitely, since nothing there checks it against
+   Analysis A. We corrected it to 61 -> 67 -> 529 -> 1,673 and re-executed
+   clean. This is a print statement, not a computed value feeding any result,
+   but a reader taking that cell's output at face value would have been misled.
+
+None of the three points changes any conclusion. We are logging all of them here,
+rather than fixing them silently, for the same reason every other correction in
+this file is logged: a reader should be able to see exactly what was found and
+when, not just the final state. We should also be honest about the process
+failure this reveals: the same "231" and "101 of 391" search that caught these
+should have been run while we were writing the original entry, not after an
+outside reviewer asked for one - checking "does this number appear anywhere else
+uncorrected" is now something we do before closing out a correction, not after.
+
+**Verification.** `analysis_a.ipynb`, `analysis_c.ipynb`, `figure_3.ipynb`, and
+`figure_s3.ipynb` all re-executed clean with hard-coded expected values for every
+changed number (67, the 6 named extra genes, 104, 3 unresolved Table S3 rows),
+meaning a stale re-run would raise rather than silently pass. The full 17-notebook
+suite was re-run after each round of fixes; see below.
