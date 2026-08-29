@@ -900,6 +900,18 @@ which is the same reconciled case already on record above ("Binding Reconciliati
 Decision, corrected"), not a new discrepancy. Wrote `results/table_1.csv` and
 `tables/table_1.csv`.
 
+**Addendum, 2026-08-28.** While checking a manuscript draft against this repo, we
+found that `ymel-1`'s raw Score value — the number actually cited in the text as
+"a score of 119" — had never been written down anywhere, only its rank (58/61).
+Every other number in that sentence traced back to something in this file or the
+tables; this one didn't, because the table only ever carried ranks, never the
+underlying score. We added it to the Table 1 footnote for traceability: `ymel-1`'s
+raw Score is 118.8 (rounds to 119), the lowest of the five genes shown in this
+table. We also re-confirmed `hsp-60`'s bound fold-enrichment of 3.8×, cited
+separately in the Figure 2 entry below — that one was already on record, just easy
+to miss since it sits in prose rather than a table. Re-rendered `tables/table_1.pdf`
+with the added footnote line; nothing else in the table changed.
+
 ---
 
 ## 2026-08-19 · Figure 2 — occupancy vs. output (Claim 2)
