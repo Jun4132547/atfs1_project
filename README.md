@@ -45,7 +45,8 @@ sources in the data table below.
 | `scripts/figure_2.ipynb` | Figure 2 — occupancy vs. output (Claim 2); 7 genes, peak tracks + induction rank |
 | `scripts/figure_3.ipynb` | Figure 3 — filtering-series test (Claim 3); rejects the intersection-artifact hypothesis |
 | `scripts/figure_4.ipynb` | Figure 4 — robustness; annotation-depth control, *isp-1* concordance, raw-count magnitude |
-| `scripts/table_s1.ipynb` | Table S1 — full 72-gene census with inclusion rule and regulon-membership flag |
+| `scripts/figure_5.ipynb` | Figure 5 — revised-model schematic; conceptual only, draws from `results/` used by Figures 1 and 2, no new analysis |
+| `scripts/table_s1.ipynb` | Table S1 — full 72-gene census with inclusion rule, regulon-membership flag, and ATFS-1 binding status for the two overlapping genes |
 | `scripts/figure_s2.ipynb` | Figure S2 — metric sensitivity; full Score vs. Score/variability rank-rank scatter |
 | `scripts/figure_s1.ipynb` | Figure S1 — pipeline validation; GO positive control on the Pfam census |
 | `scripts/figure_s3.ipynb` | Figure S3 — peak-assignment window sensitivity (0.5–10kb, with/without operon logic) |
@@ -54,7 +55,7 @@ sources in the data table below.
 
 | File | What it is | Source |
 |---|---|---|
-| `data/raw/ATFS1_targets_Soo.xlsx` | Soo & Van Raamsdonk high-confidence target table (61 genes, plus *hsp-6*/*hsp-60* as reference rows — see `gate_decisions.md`) with both ranking metrics and the ChIP-seq binding column | microPublication Biology, [10.17912/micropub.biology.000484](https://doi.org/10.17912/micropub.biology.000484) |
+| `data/raw/ATFS1_targets_Soo.xlsx` | Soo & Van Raamsdonk high-confidence target table (61 genes, plus *hsp-6*/*hsp-60* as reference rows, not regulon members) with both ranking metrics and the ChIP-seq binding column | microPublication Biology, [10.17912/micropub.biology.000484](https://doi.org/10.17912/micropub.biology.000484) |
 | `data/raw/nargund2015_TableS1-S2.xlsx` | Gene-level ATFS-1-bound list cited in Nargund 2015's prose | Mol Cell, [PMC4385436](https://pmc.ncbi.nlm.nih.gov/articles/PMC4385436/) |
 | `data/raw/nargund2012_TableS2_spg7_upregulated.xlsx` | Genes up-regulated under *spg-7*(RNAi) (685 genes) | Science [10.1126/science.1223560](https://doi.org/10.1126/science.1223560), SOM. Retrieved 2026-08-11 |
 | `data/raw/nargund2012_TableS3_spg7_ATFS1dependent.xlsx` | The ATFS-1-**dependent** subset of the above (391 genes) | Science [10.1126/science.1223560](https://doi.org/10.1126/science.1223560), SOM. Retrieved 2026-08-11 |
@@ -67,7 +68,7 @@ sources in the data table below.
 | `ref_data/GSE38196/` | Nargund 2012 raw Affymetrix microarrays — 12 samples, WT / *atfs-1(tm4525)* × control / *spg-7*(RNAi), 3 replicates | GEO [GSE38196](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE38196) |
 | `ref_data/GSE110984/` | RNA-seq CPM tables (raw and normalised), 43 samples | GEO [GSE110984](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE110984) |
 | `data/liftover/` | ce6→ce11 chain file, the `liftOver` binary, and the lifted peak BEDs | UCSC |
-| `data/chaperone_protease_census.csv` | Frozen 72-gene chaperone/QC-protease census (Pfam-domain based); inclusion rule and borderline cases documented in `gate_decisions.md` | Built by `scripts/census_build.ipynb` from WS285 |
+| `data/chaperone_protease_census.csv` | Frozen 72-gene chaperone/QC-protease census (Pfam-domain based); full inclusion rule and borderline-case decisions kept in the author's private working log, available on request | Built by `scripts/census_build.ipynb` from WS285 |
 
 WormBase and NCBI both refuse scripted downloads; the WormBase files here came from
 the EBI mirror. Anything retrieved by hand is dated in the table above.
@@ -75,7 +76,37 @@ the EBI mirror. Anything retrieved by hand is dated in the table above.
 ## Full analysis record
 
 The day-by-day decision log, every verified constant, standing conventions (dual-metric
-reporting, no silent fallbacks, absolute-vs-relative claim framing), corrections, and
-known open items all live in `gate_decisions.md` — kept as the single source of truth
-rather than duplicated here. Nothing in that history is overwritten; corrections are
-logged alongside the original entries they correct, not silently edited in place.
+reporting, no silent fallbacks, absolute-vs-relative claim framing), and known open
+items are kept in a private working log (`gate_decisions.md`, not tracked in this
+repo) available from the author on request. Nothing in that history has ever been
+overwritten; corrections are logged alongside the original entries they correct, not
+silently edited in place — see Corrections below for the headline list.
+
+## Corrections
+
+A short, dated list of headline corrections to previously stated facts or numbers in
+this project. Full detail, reasoning, and verification for each is kept in the private
+working log referenced above.
+
+- **2026-08-11** — Three early results (an operon-membership check for two anchor
+  genes, and a gene-list lookup for *hsp-6*) were found to be silently fabricated by
+  error-handling code that printed a plausible answer on failure rather than raising.
+  All three were re-derived from real source data.
+- **2026-08-12** — The *ymel-1* ATFS-1 binding call corrected from "not bound" to
+  "bound" — a gene-naming alias (*yme-1*) had caused it to be missed in Nargund et al.
+  (2015)'s table.
+- **2026-08-13** — Nargund et al. (2012)'s Table S2/S3 gene counts corrected from
+  310/163 to the real 685/391 (a row-counting bug); this did not affect the *hsp-6*
+  conclusion drawn from that table.
+- **2026-08-14** — F22B3.7's wild-type zero-replicate count corrected from 8 of 12 to
+  the real 9 of 12.
+- **2026-08-14** — The chaperone/protease census's candidate gene count corrected from
+  83 to the real 85; the final 72-gene census itself was unaffected.
+- **2026-08-26** — A missing third condition in the three-way gene-set intersection
+  underlying the filtering series was found and fixed: corrected from 231 genes to 67.
+  The same gap corrected Claim 2's headline binding statistic from 101 of 391 (25.8%)
+  to 104 of 391 (26.6%).
+- **2026-09-05** — A follow-up review found this project's own account of the
+  2026-08-26 correction had overstated it: the earlier 231-gene set did in fact
+  contain all 61 regulon genes, just less tightly than the corrected 67-gene set.
+  Wording corrected accordingly.
