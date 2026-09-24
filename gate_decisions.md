@@ -1256,8 +1256,10 @@ widest 159mm, tallest 196mm, both within the 180 x 210mm limit.
 cross-reference - both below)
 **Outcome:** `analysis_a.ipynb`'s "three-way intersection" (231 genes) was only
 ever built from two of Soo's three real conditions. Corrected to 67 genes, which
-now contains all 61 of Soo's published genes - something the 231-gene version
-never actually achieved. The same missing condition also reached into Analysis C's
+still contains all 61 of Soo's published genes with zero exceptions - the 231-gene
+version also nested the 61 cleanly (see addendum below), but far more loosely,
+carrying 170 unexplained extra genes against 67's 6. The same missing condition
+also reached into Analysis C's
 headline binding statistic: **101 of 391 (25.8%) corrected to 104 of 391 (26.6%)**
 (a third notebook, `figure_s3.ipynb`, needed the identical fix and was missed in
 the first pass - see the addendum below). Claim 1's own numbers (2 of 61, 6.8×,
@@ -1286,13 +1288,28 @@ two of them.
 
 Corrected to `nuo6_dependent & et_both & spg7_dependent`, which comes out to 67
 genes. We checked directly, rather than assuming, whether this actually contains
-Soo's 61 - it does, with zero exceptions, which `regulon <= three_way` never held
-against the old 231-gene version. Six genes sit in the 67 but not the 61 (`asp-8`,
-`cyp-13A12`, `fgt-1`, `mul-1`, `nsun-4`, `timm-23`), meaning Soo's method applies
-some further trimming criterion beyond the plain intersection that this repo has
-not reconstructed - the same kind of open question as the Wu 2018 31-gene gap
-below. 67 is a far tighter, more convincing nesting around 61 than 231 ever was,
-which in retrospect is what should have raised the concern earlier.
+Soo's 61 - it does, with zero exceptions. Six genes sit in the 67 but not the 61
+(`asp-8`, `cyp-13A12`, `fgt-1`, `mul-1`, `nsun-4`, `timm-23`), meaning Soo's method
+applies some further trimming criterion beyond the plain intersection that this
+repo has not reconstructed - the same kind of open question as the Wu 2018
+31-gene gap below. 67 is a far tighter, more convincing nesting around 61 than 231
+ever was - not because 231 failed to contain the 61 (it didn't; `regulon <=
+three_way` held there too, per that notebook's own recorded output at the time),
+but because it carried 170 extra genes beyond the 61 against 67's 6, which in
+retrospect is what should have raised the concern earlier.
+
+**Addendum, 2026-09-05.** An outside review of this entry caught us overstating
+the 231-gene version's defect: we had written that it "never actually achieved"
+nesting the 61, and that `regulon <= three_way` "never held" against it. Both
+claims are wrong. We went back to the actual pre-correction code and its own
+recorded output (git history, commit `f7de32f`) rather than trusting our own
+retelling of it, and found the old 231-gene version's nesting check had already
+passed at the time: *"Nesting confirmed: the 61 sit inside the 231-gene three-way
+intersection."* The real defect was never a nesting failure - both the 231-gene
+and 67-gene versions contain all 61 with zero exceptions. The actual difference is
+how tightly each one fits: 231 carried 170 unexplained extra genes, 67 carries 6,
+named above. We corrected the wording in this entry rather than leave the
+inaccurate version standing.
 
 A second, real defect turned up while fixing this: Table S3's gene-ID resolution
 was silently dropping real genes. Ten of the 391 real rows in
@@ -1426,3 +1443,110 @@ uncorrected" is now something we do before closing out a correction, not after.
 changed number (67, the 6 named extra genes, 104, 3 unresolved Table S3 rows),
 meaning a stale re-run would raise rather than silently pass. The full 17-notebook
 suite was re-run after each round of fixes; see below.
+
+---
+
+## 2026-09-23 · Table S1 gains binding columns; a caption-verification pass finds a real gap and a rendering defect
+
+**Date:** 2026-09-23
+**Outcome:** `table_s1.ipynb` now carries ATFS-1 binding status (published, Nargund
+2015, this study) for `dnj-10` and `ymel-1`, merged in from `table_1.ipynb`'s
+already-validated output rather than recomputed. Caught and fixed a real rendering
+defect along the way, found only by opening the rendered page, not by the code
+running without error.
+
+This came from a caption-accuracy pass on the supplementary tables, checking each
+drafted caption against the actual file it describes rather than against what the
+project's own notes said the table should contain - the same discipline that
+caught two real errors in Table S2's caption. Table S1's drafted caption claimed
+nothing about binding status, but Results §2's closing sentence about `ymel-1`'s
+`yme-1` alias cites Table S1 as its source for exactly that. We checked
+`results/table_s1_census.csv` directly: no binding column of any kind existed
+there. The data that sentence actually needs lives in `table_1.ipynb`'s output, a
+notebook this paper's own structure has no separate main-text table for. Rather
+than revive a standalone "Table 1" or drop the citation, we merged the three
+binding columns into Table S1 itself, populated only for the two genes where
+binding was ever assessed (`dnj-10`, `ymel-1`) and blank for the other 70 - blank
+is correct here, not a gap, since binding was never evaluated for the genes that
+don't overlap the ATFS-1 regulon comparison.
+
+**The alias-sensitive fact this exists to support, checked directly rather than
+assumed:** `ymel-1`'s row shows `bound_nargund2015 = Yes`, confirming the merge
+correctly carries the fact that Nargund et al. (2015) list this gene as bound
+under its older name, `yme-1` - a naive current-name lookup against their table
+would miss it. This is exactly what Results §2's sentence depends on, now
+traceable to an actual column rather than a table that didn't contain it.
+
+**A real defect, caught by rendering, not by the code succeeding.** The first
+attempt at adding three columns to an already-full 6-column table narrowed
+existing column widths to make room without measuring whether they still fit.
+`table_style.py`'s wrapper only breaks lines on whitespace, so single-token values
+- WBGene IDs, `chaperone`/`protease`, and the header word `Nargund` - can never
+wrap onto a second line; a column narrower than that token's rendered width just
+overflows silently into whatever sits next to it. Nothing raised, because nothing
+in `table_style.py` checks for this - the PDF rendered "successfully" with
+`WBGene00000377` and `T05C12.7` printed on top of each other in the first
+attempt, visible only after opening the actual PNG, not from the notebook's own
+output. Measured the real minimum width for every column's worst-case value
+directly against `table_style._measurer` rather than guessing a second time: the
+9 columns' bare minimum summed to 0.9987 of the portrait page's usable width,
+effectively no margin at all. Re-rendered in landscape instead (page dimensions
+swapped via `render_table`'s existing `page_w`/`page_h` parameters, not a change
+to `table_style.py` itself), which gives roughly 19% more usable width - enough
+for a real safety margin on every column. Also shortened the three binding
+headers ("Soo 2021" / "Nargund 2015" / "this study" rather than "Bound
+(published)" etc.), since the parenthetical form is itself a single unbreakable
+token wider than the column needs to be for a "Yes"/"No" body value.
+
+**Verification.** Re-executed clean: 72 rows, binding columns populated for
+exactly `dnj-10` and `ymel-1` (hard-coded check, raises otherwise), `ymel-1`'s
+Nargund 2015 alias check passes explicitly. All four rendered pages inspected
+directly (not just "did it run") - no overlapping text anywhere, `pfd-3`/`pfd-5`'s
+multi-line manual-addition text wraps cleanly, the footnote is fully legible and
+updated to state the binding columns' scope. No other notebook reads
+`results/table_s1_census.csv`, so this carries no downstream risk. Final columns,
+in order: `wbgene, seqname, public_name, role, pfam_families, in_61_regulon,
+bound_published_soo2021, bound_nargund2015, bound_this_study`.
+
+---
+
+## 2026-09-24 · Figure 5 — revised model schematic (new figure, appended, not inserted)
+
+**Date:** 2026-09-24
+**Outcome:** Built `scripts/figure_5.ipynb`, a single-panel conceptual schematic,
+not a new analysis. Appended as Figure 5 rather than inserted as Figure 1, per the
+author's explicit decision, so Figures 1-4's already-locked captions and in-text
+citations do not need renumbering.
+
+The panel contrasts the field's prior expectation (a shared trunk - import
+failure, ATFS-1 nuclear translocation - leading to a single "chaperones and
+quality-control proteases" output) against what this study actually finds: the
+same trunk forking to the real Figure 1C composition (drawn at the true
+proportions, not sketched) with the folding/QC slice called out directly, plus a
+separate element below showing Figure 2's occupancy-does-not-predict-induction-
+rank finding as a dashed, question-marked arrow. No new numbers - the only data
+drawn (28/19/8/4/2 of 61) is read from `results/regulon_61.csv`, the same file
+`figure_1.ipynb` reads for its own Panel C, with a hard-coded check that the
+folding/QC count is still 2 before drawing anything, so the two figures cannot
+silently drift apart from each other.
+
+**Two real defects caught before this was called done, both by inspecting the
+rendered output, not by the code running without error.** First, the initial
+draft used `"atfs1"` as the notebook's kernel display name - the exact defect this
+project already found and fixed once across three other notebooks
+(2026-08-14 pre-freeze audit) - caught this time before execution by checking
+`figure_1.ipynb`'s actual working kernelspec first rather than assuming. Second,
+the first rendered version included a 5-item colour legend under the composition
+bar; opening the actual PNG (not just confirming the notebook ran) showed it
+overlapping both the section divider and the boxes below it. Fixed by dropping
+the legend entirely - Figure 1C is already the reference for the full category
+breakdown, so this panel only needs to show that the highlighted slice is small,
+not restate every category name.
+
+**Verification.** Re-executed clean with the hard-coded folding/QC count check
+passing. All output inspected directly: no overlapping elements anywhere, both
+branches read clearly, the dashed "?" arrow renders as intended. Page size
+checked against the journal's 180x210mm limit via the PDF's own `/MediaBox`
+(173.8 x 142.7mm - comfortable margin, no `savefig` tight-bbox overflow of the
+kind Figure 1 once had). Files written: `figures/figure5_revised_model.pdf`,
+`.svg`, `.png`.

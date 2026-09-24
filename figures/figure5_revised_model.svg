@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
+  "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns:xlink="http://www.w3.org/1999/xlink" width="492.706772pt" height="404.537953pt" viewBox="0 0 492.706772 404.537953" xmlns="http://www.w3.org/2000/svg" version="1.1">
+ <metadata>
+  <rdf:RDF xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+   <cc:Work>
+    <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage"/>
+    <dc:date>2026-09-24T14:05:51.111259</dc:date>
+    <dc:format>image/svg+xml</dc:format>
+    <dc:creator>
+     <cc:Agent>
+      <dc:title>Matplotlib v3.11.1, https://matplotlib.org/</dc:title>
+     </cc:Agent>
+    </dc:creator>
+   </cc:Work>
+  </rdf:RDF>
+ </metadata>
+ <defs>
+  <style type="text/css">*{stroke-linejoin: round; stroke-linecap: butt}</style>
+ </defs>
+ <g id="figure_1">
+  <g id="patch_1">
+   <path d="M 0 404.537953 
+L 492.706772 404.537953 
+L 492.706772 0 
+L 0 0 
+z
+" style="fill: #ffffff"/>
+  </g>
+  <g id="axes_1">
+   <g id="patch_2">
+    <path d="M 246.353386 45.61502 
+Q 246.353386 57.67318 246.353386 68.277896 
+" style="fill: none; stroke: #1a1a1a; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 248.153386 64.677896 
+L 246.353386 68.277896 
+L 244.553386 64.677896 
+z
+" style="fill: #1a1a1a; stroke: #1a1a1a; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_3">
+    <path d="M 244.662193 112.965758 
+Q 187.941629 148.529069 122.448786 148.076951 
+" style="fill: none; stroke: #1a1a1a; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 126.036275 149.90176 
+L 122.448786 148.076951 
+L 126.061126 146.301846 
+z
+" style="fill: #1a1a1a; stroke: #1a1a1a; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_4">
+    <path d="M 248.044579 112.965758 
+Q 304.765143 148.529069 370.257986 148.076951 
+" style="fill: none; stroke: #1a1a1a; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 366.645646 146.301846 
+L 370.257986 148.076951 
+L 366.670497 149.90176 
+z
+" style="fill: #1a1a1a; stroke: #1a1a1a; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_5">
+    <path d="M 118.998425 170.124818 
+Q 118.998425 183.18773 118.998425 194.797197 
+" style="fill: none; stroke: #1a1a1a; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 120.798425 191.197197 
+L 118.998425 194.797197 
+L 117.198425 191.197197 
+z
+" style="fill: #1a1a1a; stroke: #1a1a1a; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_6">
+    <path d="M 373.708346 170.124818 
+Q 373.708346 183.18773 373.708346 194.797197 
+" style="fill: none; stroke: #1a1a1a; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 375.508346 191.197197 
+L 373.708346 194.797197 
+L 371.908346 191.197197 
+z
+" style="fill: #1a1a1a; stroke: #1a1a1a; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="line2d_1">
+    <path d="M 21.033071 308.708334 
+L 471.673701 308.708334 
+" clip-path="url(#pd9e4362b54)" style="fill: none; stroke: #bdbdbd; stroke-width: 0.8; stroke-linecap: square"/>
+   </g>
+   <g id="patch_7">
+    <path d="M 209.171516 348.874129 
+Q 246.355709 348.874129 282.086457 348.874129 
+" style="fill: none; stroke-dasharray: 4.81,2.08; stroke-dashoffset: 0; stroke: #bdbdbd; stroke-width: 1.3; stroke-linecap: round"/>
+    <path d="M 278.486457 347.074129 
+L 282.086457 348.874129 
+L 278.486457 350.674129 
+z
+" style="fill: #bdbdbd; stroke-dasharray: 4.81,2.08; stroke-dashoffset: 0; stroke: #bdbdbd; stroke-width: 1.3; stroke-linecap: round"/>
+   </g>
+   <g id="patch_8">
+    <path d="M 166.021795 45.019888 
+L 326.684976 45.019888 
+Q 332.562898 45.019888 332.562898 40.199992 
+L 332.562898 10.878962 
+Q 332.562898 6.059066 326.684976 6.059066 
+L 166.021795 6.059066 
+Q 160.143874 6.059066 160.143874 10.878962 
+L 160.143874 40.199992 
+Q 160.143874 45.019888 166.021795 45.019888 
+z
+" clip-path="url(#pd9e4362b54)" style="fill: #ffffff; stroke: #1a1a1a; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_9">
+    <path d="M 146.428724 113.30174 
+L 346.278047 113.30174 
+Q 352.155969 113.30174 352.155969 108.481844 
+L 352.155969 75.144234 
+Q 352.155969 70.324339 346.278047 70.324339 
+L 146.428724 70.324339 
+Q 140.550803 70.324339 140.550803 75.144234 
+L 140.550803 108.481844 
+Q 140.550803 113.30174 146.428724 113.30174 
+z
+" clip-path="url(#pd9e4362b54)" style="fill: #ffffff; stroke: #1a1a1a; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_10">
+    <path d="M 38.666835 270.952486 
+L 199.330016 270.952486 
+Q 205.207937 270.952486 205.207937 266.132591 
+L 205.207937 206.687214 
+Q 205.207937 201.867318 199.330016 201.867318 
+L 38.666835 201.867318 
+Q 32.788913 201.867318 32.788913 206.687214 
+L 32.788913 266.132591 
+Q 32.788913 270.952486 38.666835 270.952486 
+z
+" clip-path="url(#pd9e4362b54)" style="fill: #ededed; stroke: #1a1a1a; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_11">
+    <path d="M 287.988661 236.409902 
+L 366.682143 236.409902 
+L 366.682143 216.327005 
+L 287.988661 216.327005 
+z
+" clip-path="url(#pd9e4362b54)" style="fill: #dddddd; stroke: #ffffff; stroke-width: 0.6; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_12">
+    <path d="M 366.682143 236.409902 
+L 420.081291 236.409902 
+L 420.081291 216.327005 
+L 366.682143 216.327005 
+z
+" clip-path="url(#pd9e4362b54)" style="fill: #9e9e9e; stroke: #ffffff; stroke-width: 0.6; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_13">
+    <path d="M 420.081291 236.409902 
+L 442.565143 236.409902 
+L 442.565143 216.327005 
+L 420.081291 216.327005 
+z
+" clip-path="url(#pd9e4362b54)" style="fill: #e69f00; stroke: #ffffff; stroke-width: 0.6; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_14">
+    <path d="M 442.565143 236.409902 
+L 453.807069 236.409902 
+L 453.807069 216.327005 
+L 442.565143 216.327005 
+z
+" clip-path="url(#pd9e4362b54)" style="fill: #009e73; stroke: #ffffff; stroke-width: 0.6; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_15">
+    <path d="M 453.807069 236.409902 
+L 459.428031 236.409902 
+L 459.428031 216.327005 
+L 453.807069 216.327005 
+z
+" clip-path="url(#pd9e4362b54)" style="fill: #0072b2; stroke: #ffffff; stroke-width: 0.6; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_16">
+    <path d="M 63.158173 371.366974 
+L 204.228283 371.366974 
+Q 210.106205 371.366974 210.106205 366.547079 
+L 210.106205 331.201179 
+Q 210.106205 326.381284 204.228283 326.381284 
+L 63.158173 326.381284 
+Q 57.280252 326.381284 57.280252 331.201179 
+L 57.280252 366.547079 
+Q 57.280252 371.366974 63.158173 371.366974 
+z
+" clip-path="url(#pd9e4362b54)" style="fill: #ffffff; stroke: #1a1a1a; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="patch_17">
+    <path d="M 288.478488 371.366974 
+L 429.548598 371.366974 
+Q 435.42652 371.366974 435.42652 366.547079 
+L 435.42652 331.201179 
+Q 435.42652 326.381284 429.548598 326.381284 
+L 288.478488 326.381284 
+Q 282.600567 326.381284 282.600567 331.201179 
+L 282.600567 366.547079 
+Q 282.600567 371.366974 288.478488 371.366974 
+z
+" clip-path="url(#pd9e4362b54)" style="fill: #ffffff; stroke: #1a1a1a; stroke-width: 1.1; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_1">
+    <text style="font-size: 8.5px; font-family: 'Arial'; text-anchor: middle; fill: #1a1a1a" x="246.353386" y="27.788657" transform="rotate(-0 246.353386 27.788657)">Mitochondrial import failure</text>
+   </g>
+   <g id="text_2">
+    <text style="font-size: 8.5px; font-family: 'Arial'; fill: #1a1a1a" transform="translate(190.210886 88.827331)">ATFS-1 escapes degradation,</text>
+    <text style="font-size: 8.5px; font-family: 'Arial'; fill: #1a1a1a" transform="translate(195.798972 99.990388)">translocates to the nucleus</text>
+   </g>
+   <g id="text_3">
+    <text style="font-style: italic; font-size: 8.5px; font-family: 'Arial'; text-anchor: middle; fill: #bdbdbd" x="118.998425" y="162.266544" transform="rotate(-0 118.998425 162.266544)">Conventional expectation</text>
+   </g>
+   <g id="text_4">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'Arial'; fill: #1a1a1a" transform="translate(74.140339 228.243096)">Transcriptional output</text>
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'Arial'; fill: #1a1a1a" transform="translate(63.50405 238.613262)">centred on chaperones and</text>
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'Arial'; fill: #1a1a1a" transform="translate(68.228855 248.927647)">quality-control proteases</text>
+   </g>
+   <g id="text_5">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'Arial'; text-anchor: middle; fill: #0072b2" x="373.708346" y="162.266544" transform="rotate(-0 373.708346 162.266544)">This study</text>
+   </g>
+   <g id="patch_18">
+    <path d="M 287.988661 236.409902 
+L 459.428031 236.409902 
+L 459.428031 216.327005 
+L 287.988661 216.327005 
+L 287.988661 236.409902 
+z
+" clip-path="url(#pd9e4362b54)" style="fill: none; stroke: #1a1a1a; stroke-linejoin: miter"/>
+   </g>
+   <g id="text_6">
+    <text style="font-weight: 700; font-size: 8.5px; font-family: 'Arial'; text-anchor: middle; fill: #1a1a1a" x="373.708346" y="208.513151" transform="rotate(-0 373.708346 208.513151)">ATFS-1 regulon composition</text>
+   </g>
+   <g id="patch_19">
+    <path d="M 407.346367 255.834377 
+Q 436.07976 245.332203 455.472779 217.968816 
+" style="fill: none; stroke: #0072b2; stroke-width: 0.9; stroke-linecap: round"/>
+   </g>
+   <g id="text_7">
+    <text style="font-weight: 700; font-size: 8px; font-family: 'Arial'; text-anchor: middle; fill: #0072b2" x="373.708346" y="264.325309" transform="rotate(-0 373.708346 264.325309)">Folding/QC: 2 of 61</text>
+   </g>
+   <g id="text_8">
+    <text style="font-style: italic; font-size: 7px; font-family: 'Arial'; text-anchor: middle; fill: #bdbdbd" x="373.708346" y="287.696758" transform="rotate(-0 373.708346 287.696758)">(full category breakdown in Fig. 1C)</text>
+   </g>
+   <g id="text_9">
+    <text style="font-size: 8.5px; font-family: 'Arial'; fill: #1a1a1a" transform="translate(101.183385 345.938226)">ATFS-1 promoter</text>
+    <text style="font-size: 8.5px; font-family: 'Arial'; fill: #1a1a1a" transform="translate(88.098697 356.258587)">occupancy (bound / not)</text>
+   </g>
+   <g id="text_10">
+    <text style="font-size: 8.5px; font-family: 'Arial'; fill: #1a1a1a" transform="translate(332.318231 346.681312)">Induction rank</text>
+    <text style="font-size: 8.5px; font-family: 'Arial'; fill: #1a1a1a" transform="translate(325.70284 356.20679)">within the regulon</text>
+   </g>
+   <g id="text_11">
+    <text style="font-weight: 700; font-size: 15px; font-family: 'Arial'; text-anchor: middle; fill: #bdbdbd" x="246.353386" y="329.651073" transform="rotate(-0 246.353386 329.651073)">?</text>
+   </g>
+   <g id="text_12">
+    <text style="font-size: 8.5px; font-family: 'Arial'; text-anchor: middle; fill: #1a1a1a" x="246.353386" y="383.183233" transform="rotate(-0 246.353386 383.183233)">Occupancy does not predict a gene's induction rank</text>
+   </g>
+  </g>
+ </g>
+ <defs>
+  <clipPath id="pd9e4362b54">
+   <rect x="1.44" y="1.44" width="489.826772" height="401.657953"/>
+  </clipPath>
+ </defs>
+</svg>
