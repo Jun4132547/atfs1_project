@@ -1,5 +1,7 @@
 # The architecture of the ATFS-1 transcriptional output
 
+[![DOI](https://zenodo.org/badge/1334836842.svg)](https://doi.org/10.5281/zenodo.22944393)
+
 A reanalysis of published *C. elegans* data asking whether the mitochondrial unfolded
 protein response (UPR^mt), which is triggered by import failure rather than by unfolded
 protein, actually produces a folding-centric transcriptional output.
