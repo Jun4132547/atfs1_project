@@ -42,13 +42,13 @@ sources in the data table below.
 | `scripts/analysis_d.ipynb` | Analysis D — robustness checks and the Gate 2 evidence summary |
 | `scripts/wu2018_verification.ipynb` | Reconstruction of Wu 2018's published 1,704 / 529 counts |
 | `scripts/table_s2.ipynb` | Functional category for all 61 regulon genes |
-| `scripts/table_1.ipynb` | Table 1 — the five census-relevant genes, three binding sources kept separate |
+| `scripts/table_1.ipynb` | Upstream only (not a standalone manuscript table — see Table S1): computes the five census-relevant genes' Pfam domains and three-source binding comparison, written to `results/table_1.csv` |
 | `scripts/figure_1.ipynb` | Figure 1 — composition (Claim 1), three panels in one file; reads only from `results/` |
 | `scripts/figure_2.ipynb` | Figure 2 — occupancy vs. output (Claim 2); 7 genes, peak tracks + induction rank |
-| `scripts/figure_3.ipynb` | Figure 3 — filtering-series test (Claim 3); rejects the intersection-artifact hypothesis |
+| `scripts/figure_3.ipynb` | Figure 3 — filtering-series test (Claim 3) and the regulon's own GO-term enrichment profile; two independent analyses in one file |
 | `scripts/figure_4.ipynb` | Figure 4 — robustness; annotation-depth control, *isp-1* concordance, raw-count magnitude |
 | `scripts/figure_5.ipynb` | Figure 5 — revised-model schematic; conceptual only, draws from `results/` used by Figures 1 and 2, no new analysis |
-| `scripts/table_s1.ipynb` | Table S1 — full 72-gene census with inclusion rule, regulon-membership flag, and ATFS-1 binding status for the two overlapping genes |
+| `scripts/table_s1.ipynb` | Table S1 — full 72-gene census with inclusion rule and regulon-membership flag, plus ATFS-1 binding status for the two overlapping census genes and three additional borderline genes considered but excluded (reads `table_1.ipynb`'s output rather than recomputing it) |
 | `scripts/figure_s2.ipynb` | Figure S2 — metric sensitivity; full Score vs. Score/variability rank-rank scatter |
 | `scripts/figure_s1.ipynb` | Figure S1 — pipeline validation; GO positive control on the Pfam census |
 | `scripts/figure_s3.ipynb` | Figure S3 — peak-assignment window sensitivity (0.5–10kb, with/without operon logic) |

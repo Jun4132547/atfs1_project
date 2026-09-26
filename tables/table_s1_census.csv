@@ -71,3 +71,6 @@ WBGene00021425,Y38F2AR.7,ppgn-1,protease,Peptidase_M41,False,,,
 WBGene00004978,Y47G6A.10,spg-7,protease,Peptidase_M41,False,,,
 WBGene00021615,Y47C4A.1,Y47C4A.1,protease,Peptidase_M41,False,,,
 WBGene00010842,M03C11.5,ymel-1,protease,Peptidase_M41,True,No,Yes,Yes
+WBGene00009595,F40F12.7,cbp-3,excluded,PF02135 (zf-TAZ),True,No,No,No
+WBGene00004201,F54F2.8,prx-19,excluded,PF04614 (Pex19),True,Yes,Yes,Yes
+WBGene00077771,C41G7.9,tspo-1,excluded,PF03073 (TspO_MBR),True,Yes,Yes,Yes
